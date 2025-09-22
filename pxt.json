@@ -1,0 +1,33 @@
+{
+    "name": "CutebotRL_AI2",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "microphone": "*",
+        "cutebot": "github:elecfreaks/pxt-cutebot#v6.0.0",
+        "microturtle": "github:microsoft/pxt-microturtle#v0.0.10",
+        "datalogger": "*",
+        "bluetooth": "*"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md",
+        "main.py"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "branch": "v4.0.16",
+        "tag": "v4.0.16",
+        "commits": "https://github.com/microsoft/pxt-microbit/commits/04b1a5492fb75af626caed5601ee8d794d970dd7",
+        "target": "8.0.16",
+        "pxt": "7.0.12",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "tsprj"
+}
