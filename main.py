@@ -1,5 +1,11 @@
 def update_function_negative(previous: number, learningRate: number):
     return previous + learningRate * (-1 * discount_factor - previous)
+
+def on_log_full():
+    basic.show_string("Log full!")
+    basic.pause(5000)
+datalogger.on_log_full(on_log_full)
+
 def choose_move(lineState: number):
     global Max, Move
     if QT_Back[lineState] > QT_Forward[lineState]:
@@ -25,6 +31,15 @@ def choose_move(lineState: number):
         cuteBot.move_time(cuteBot.Direction.LEFT, 25, 0.1)
     else:
         cuteBot.move_time(cuteBot.Direction.RIGHT, 25, 0.1)
+
+def on_bluetooth_connected():
+    basic.show_icon(IconNames.STICK_FIGURE)
+bluetooth.on_bluetooth_connected(on_bluetooth_connected)
+
+def on_bluetooth_disconnected():
+    basic.show_icon(IconNames.NO)
+bluetooth.on_bluetooth_disconnected(on_bluetooth_disconnected)
+
 def update_function_positive(previous2: number, learningRate2: number):
     return previous2 + learningRate2 * (discount_factor - previous2)
 def update_q_table():
@@ -58,6 +73,7 @@ def update_q_table():
             QT_Right[line_state] = update_function_negative(QT_Right[line_state], 0.1)
         else:
             QT_Right[line_state] = update_function_negative(QT_Right[line_state], 0.1)
+    save_QT_Move()
 
 def on_button_pressed_ab():
     global simulate
@@ -67,6 +83,13 @@ def on_button_pressed_ab():
         simulate = 1
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
+def save_QT_Move():
+    datalogger.include_timestamp(FlashLogTimeStampFormat.MILLISECONDS)
+    datalogger.log(datalogger.create_cv("QT_Forward", QT_Forward),
+        datalogger.create_cv("QT_Back", QT_Back),
+        datalogger.create_cv("QT_Left", QT_Left),
+        datalogger.create_cv("QT_Right", QT_Right))
+    datalogger.mirror_to_serial(False)
 def feedback_for_q_table(feedback: str):
     if Move == 0:
         if feedback == "good":
@@ -88,6 +111,7 @@ def feedback_for_q_table(feedback: str):
             QT_Right[line_state] = update_function_positive(QT_Right[line_state], 0.25)
         else:
             QT_Right[line_state] = update_function_negative(QT_Right[line_state], 0.25)
+    save_QT_Move()
 line_state = 0
 Move = 0
 Max = 0
@@ -97,10 +121,11 @@ QT_Right: List[number] = []
 QT_Left: List[number] = []
 QT_Forward: List[number] = []
 simulate = 0
+bluetooth.start_uart_service()
+basic.show_string(control.device_name().substr(0, 3))
 simulate = 0
 QT_Forward = [0, 0, 0, 0]
 QT_Left = [0, 0, 0, 0]
-QT_Right = [0, 0, 0, 0]
 QT_Right = [0, 0, 0, 0]
 QT_Back = [0, 0, 0, 0]
 discount_factor = 0.7

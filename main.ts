@@ -85,11 +85,7 @@ function update_q_table () {
     save_QT_Move()
 }
 input.onButtonPressed(Button.AB, function () {
-    if (simulate == 1) {
-        simulate = 0
-    } else {
-        simulate = 1
-    }
+    basic.showString(control.deviceName())
 })
 function save_QT_Move () {
     datalogger.includeTimestamp(FlashLogTimeStampFormat.Milliseconds)
@@ -140,10 +136,9 @@ let QT_Back: number[] = []
 let QT_Right: number[] = []
 let QT_Left: number[] = []
 let QT_Forward: number[] = []
-let simulate = 0
 bluetooth.startUartService()
 basic.showString(control.deviceName().substr(0, 3))
-simulate = 0
+let simulate = 0
 QT_Forward = [
 0,
 0,
